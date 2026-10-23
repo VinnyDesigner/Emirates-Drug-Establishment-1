@@ -1,26 +1,176 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-arabic: var(--font-cairo), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --color-primary: #0F2342;
+  --color-primary-hover: #09172B;
+  --color-primary-light: #1A3B6E;
+  --color-secondary: #1D68E2;
+  --color-secondary-hover: #1555BF;
+  --color-accent: #00B3AA;
+  --color-accent-hover: #008F88;
+  --color-accent-light: #E6FAF8;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --primary: #0F2342;
+    --primary-hover: #09172B;
+    --primary-light: #1A3B6E;
+    --secondary: #1D68E2;
+    --secondary-hover: #1555BF;
+    --accent: #00B3AA;
+    --accent-hover: #008F88;
+    --accent-light: #E6FAF8;
+    --bg-main: #F8FAFC;
+    --surface: #FFFFFF;
+    --text-primary: #0F172A;
+    --text-muted: #64748B;
+    --border-color: #E2E8F0;
+  }
+
+  * {
+    border-color: var(--border-color);
+  }
+
+  body {
+    background-color: #F8FAFC;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(0, 179, 170, 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(29, 104, 226, 0.05) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(15, 35, 66, 0.03) 0px, transparent 60%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    font-feature-settings: "rlig" 1, "calt" 1, "cv11" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  [dir="rtl"] {
+    font-family: var(--font-cairo), system-ui, -apple-system, sans-serif;
+  }
+
+  [dir="ltr"] {
+    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Glassmorphism & Modern Card Utilities */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 20px -2px rgba(15, 35, 66, 0.05);
+}
+
+.glass-card-dark {
+  background: rgba(15, 35, 66, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.card-clean,
+.card-trendy {
+  background: #FFFFFF;
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  border-radius: 1rem; /* rounded-2xl */
+  box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.03);
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+}
+
+/* Modernized Table Styling (Matching Payslip Archive Card) */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table thead tr {
+  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+  color: #64748B;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+}
+
+table th {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  background-color: transparent !important;
+}
+
+table tbody tr {
+  border-bottom: 1px solid rgba(241, 245, 249, 1);
+  transition: background-color 0.15s ease;
+}
+
+table tbody tr:hover {
+  background-color: rgba(248, 250, 252, 0.75);
+}
+
+table td {
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Interactive Focus Glows */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+}
+
+/* Printable styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Hide Next.js development indicator */
+nextjs-portal,
+[data-nextjs-toast],
+[data-next-badge] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Sidebar collapse dynamic adjustment */
+@media (min-width: 1024px) {
+  html.sidebar-collapsed div[class*="lg:pl-64"] {
+    padding-left: 5rem !important;
+  }
+  html[dir="rtl"].sidebar-collapsed div[class*="rtl:lg:pr-64"] {
+    padding-right: 5rem !important;
+  }
 }
